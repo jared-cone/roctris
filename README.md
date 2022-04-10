@@ -7,7 +7,7 @@ It has only been compiled and tested with WSL2 running `Ubuntu 20.04.3 LTS`
 
 ## Installation 
 
-1. Download [Roc](https://github.com/rtfeldman/roc/) and download [Roctris](https://github.com/cj3j/roctris/) next to Roc.
+1. Download [Roc](https://github.com/rtfeldman/roc/) and download [Roctris](https://github.com/cjcone/roctris/) next to Roc.
 2. Follow Roc's instructions for setting up the nix shell.
 3. navigate to the Roc folder, run `nix-shell`
 4. run `cargo run ../roctris/Roctris.roc`
