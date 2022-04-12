@@ -2,7 +2,7 @@
 
 use core::alloc::Layout;
 use core::ffi::c_void;
-use core::mem::{ManuallyDrop, MaybeUninit};
+use core::mem::{MaybeUninit};
 use crossterm::execute;
 use crossterm;
 use libc;
@@ -76,12 +76,12 @@ pub unsafe extern "C" fn roc_memset(dst: *mut c_void, c: i32, n: usize) -> *mut 
 }
 
 unsafe fn execute_main() -> i32 {
-    
+
     START_TIME = Some(std::time::Instant::now());
-    
+
     let size = unsafe { roc_main_size() } as usize;
     let layout = Layout::array::<u8>(size).unwrap();
-    
+
     // TODO allocate on the stack if it's under a certain size
     let buffer = std::alloc::alloc(layout);
 
@@ -91,7 +91,7 @@ unsafe fn execute_main() -> i32 {
 
     std::alloc::dealloc(buffer, layout);
 
-    return result;
+    0
 }
 
 #[no_mangle]
@@ -103,18 +103,18 @@ pub extern "C" fn rust_main() -> i32 {
             Err(_) => 1
         }
     };
-    
+
     crossterm::terminal::disable_raw_mode();
     execute!(std::io::stdout(),
         crossterm::cursor::Show,
         crossterm::style::SetForegroundColor(crossterm::style::Color::Reset),
         crossterm::style::SetBackgroundColor(crossterm::style::Color::Reset)
     );
-    
+
     result
 }
 
-unsafe fn call_the_closure(closure_data_ptr: *const u8) -> i32 {
+unsafe fn call_the_closure(closure_data_ptr: *const u8) -> i64 {
     let size = size_Fx_result() as usize;
     let layout = Layout::array::<u8>(size).unwrap();
     let buffer = std::alloc::alloc(layout) as *mut u8;
@@ -142,13 +142,13 @@ pub extern "C" fn roc_fx_getLine() -> RocStr {
 }
 
 #[no_mangle]
-pub extern "C" fn roc_fx_putLine(line: ManuallyDrop<RocStr>) {
+pub extern "C" fn roc_fx_putLine(line: &RocStr) {
     let string = line.as_str();
     println!("{}", string);
 }
 
 #[no_mangle]
-pub extern "C" fn roc_fx_put(line: ManuallyDrop<RocStr>) {
+pub extern "C" fn roc_fx_put(line: &RocStr) {
     let string = line.as_str();
     print!("{}", string);
 }
