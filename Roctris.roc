@@ -76,19 +76,19 @@ makeBlock = \color, x0, y0, x1, y1, x2, y2, x3, y3 ->
 
 blockPool = [
     # Stick
-    (makeBlock Color.teal 0 0 1 0 2 0 3 0),
+    (makeBlock (Color.rgb8 0 245 245) 0 0 1 0 2 0 3 0),
     # Left L
-    (makeBlock Color.blue 0 0 0 1 1 1 2 1),
+    (makeBlock (Color.rgb8 0 0 245) 0 0 0 1 1 1 2 1),
     # Right L
-    (makeBlock Color.orange 0 1 1 1 2 1 2 0),
+    (makeBlock (Color.rgb8 245 100 0) 0 1 1 1 2 1 2 0),
     # Square
-    (makeBlock Color.yellow 0 0 0 1 1 0 1 1),
+    (makeBlock (Color.rgb8 245 245 0) 0 0 0 1 1 0 1 1),
     # Left Z
-    (makeBlock Color.green 1 0 2 0 0 1 1 1),
+    (makeBlock (Color.rgb8 0 245 0) 1 0 2 0 0 1 1 1),
     # Right Z
-    (makeBlock Color.red 0 0 1 0 1 1 2 1),
+    (makeBlock (Color.rgb8 245 0 0) 0 0 1 0 1 1 2 1),
     # T
-    (makeBlock Color.purple 1 0 0 1 1 1 2 1),
+    (makeBlock (Color.rgb8 245 0 245) 1 0 0 1 1 1 2 1),
 ]
 
 ###############################################
