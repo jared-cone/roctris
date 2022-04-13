@@ -63,7 +63,7 @@ loop = \state ->
     frameStartTime <- Time.appSeconds |> Task.await
     
     # TODO tried adding a fixedDeltaSeconds as input to Run and into State, but compiler kept crashing
-    fixedDeltaSeconds = (1/60) |> Result.withDefault 0
+    fixedDeltaSeconds = (1/60)
 
     # TODO read more than one key
     key <- Terminal.nextKey |> Task.await

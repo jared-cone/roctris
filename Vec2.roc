@@ -79,7 +79,7 @@ testMultiply = \test ->
     
 divide : Vec2i a, Vec2i a -> Vec2i a
 divide = \a, b ->
-    { x : a.x // b.x |> Result.withDefault 0, y : a.y // b.y |> Result.withDefault 0 }
+    { x : Num.divFloorChecked a.x b.x |> Result.withDefault 0, y : Num.divFloorChecked a.y b.y |> Result.withDefault 0 }
     
 testDivide = \test ->                                                        
     test                                                                  

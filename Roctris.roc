@@ -62,7 +62,7 @@ rowsRequiredForLevel = \level ->
 moveTimerRateForLevel = \level ->
     maxRate = 10
     levelForMaxRate = 10
-    incPerLevel = maxRate / levelForMaxRate |> Result.withDefault 1
+    incPerLevel = maxRate / levelForMaxRate
     Util.min (1 + ((Num.toFloat (level - 1)) * incPerLevel)) maxRate
 
 makeBlock = \color, x0, y0, x1, y1, x2, y2, x3, y3 ->
@@ -226,8 +226,8 @@ updateSpawnBlock = \model ->
         randNum = blah.randNum
         template = List.get blockPool (Num.toNat randNum) |> Result.withDefault Block.empty
         blockSize = Block.size template
-        halfBlockWidth = (blockSize.x + 1) // 2 |> Result.withDefault 0
-        halfPlayWidth = playSize.x // 2 |> Result.withDefault 0
+        halfBlockWidth = (blockSize.x + 1) // 2
+        halfPlayWidth = playSize.x // 2
         x = playMin.x + halfPlayWidth - halfBlockWidth
         y = playMin.y
         

@@ -20,7 +20,7 @@ rangeU32 = \seed, incMin, incMax ->
     range = if incMax >= incMin then incMax - incMin + 1 else 0
     # TODO compiler crash - no support for mod U32?
     #randNum = Num.modInt randSeed range |> Result.withDefault 0 |> Num.add incMin
-    div = randSeed // range |> Result.withDefault 0
+    div = Num.divFloorChecked randSeed range |> Result.withDefault 0
     t = div * range
     randNum = randSeed - t
     {randSeed, randNum}

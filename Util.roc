@@ -69,7 +69,7 @@ intToStr = \num ->
         if n < 10 then
             Str.concat s (Num.toStr n)
         else
-            base = n // 10 |> Result.withDefault 0
+            base = n // 10
             remainder = n - (base * 10)
             loop s base |> loop remainder
     loop "" num
