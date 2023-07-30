@@ -1,5 +1,7 @@
 app "Roctris"
-    packages {pf: "platform"}
+    packages {pf: "platform/Package-Config.roc"}
+    # packages { pf: "https://github.com/roc-lang/basic-cli/releases/download/0.4.0/DI4lqn7LIZs8ZrCDUgLK-tHHpQmxGF1ZrlevRKq5LXk.tar.br" }
+
     imports [
         Block.{Block},
         Color.{Color},
@@ -63,7 +65,7 @@ moveTimerRateForLevel = \level ->
     maxRate = 10
     levelForMaxRate = 10
     incPerLevel = maxRate / levelForMaxRate
-    Util.min (1 + ((Num.toFloat (level - 1)) * incPerLevel)) maxRate
+    Util.min (1 + ((Num.toF64 (level - 1)) * incPerLevel)) maxRate
 
 makeBlock = \color, x0, y0, x1, y1, x2, y2, x3, y3 ->
     points = [
@@ -114,7 +116,7 @@ PlayerInput : {
     teleportDown : Bool,
 }
 
-emptyPlayerInput = {move : Vec2.zero, rotate : 0, teleportDown : False}
+emptyPlayerInput = {move : Vec2.zero, rotate : 0, teleportDown : Bool.false}
 
 State : [Intro, Playing, GameOver]
 
@@ -140,7 +142,7 @@ newGame : U32 -> Model
 newGame = \randSeed ->
     state = Intro
     input = emptyPlayerInput
-    teleportDown = False
+    teleportDown = Bool.false
     moveTimer = Timer.create 1
     block = Block.empty
     debris = []
@@ -172,7 +174,7 @@ updatePlayerInput = \model, key ->
     rotate = if key == Keys.up then 1 else 0
 
     teleportDown : Bool
-    teleportDown = if key == Keys.spacebar then True else False
+    teleportDown = if key == Keys.spacebar then Bool.true else Bool.false
     
     input = {move, rotate, teleportDown}
 
@@ -246,7 +248,7 @@ updateTeleportDown : Model -> Model
 updateTeleportDown = \model ->
     teleportState =
         if model.input.teleportDown then
-            {model & teleportDown : True}
+            {model & teleportDown : Bool.true}
         else
             model
             
@@ -334,7 +336,7 @@ addBlockToDebris = \model ->
     miny = (Block.min model.block).y
     maxy = (Block.max model.block).y
     # TODO List.range documentation says "including both of the given numbers" but that's not correct
-    rows = List.range miny (maxy + 1)
+    rows = List.range { start: At miny, end: At (maxy + 1) }
     rowsToDrop =
         List.keepIf rows (\y -> (countPointsInRow debris y) == playSize.x)
         |> List.reverse
@@ -350,7 +352,7 @@ addBlockToDebris = \model ->
             model.level + 1
         else
             model.level
-    teleportDown = False
+    teleportDown = Bool.false
     {model & debris, block : Block.empty, teleportDown, rowsToDrop, score, rowsCleared, level}
 
 moveBlock : Model, Vec2 -> Model
@@ -389,7 +391,7 @@ updateMoveTimer = \model, deltaSeconds ->
         if model.input.move.y > 0 then
             Timer.reset model.moveTimer
         else
-            Timer.update model.moveTimer (deltaSeconds * (moveTimerRateForLevel model.level))
+            Timer.update model.moveTimer (deltaSeconds * Num.toF32 (moveTimerRateForLevel model.level))
             
     newModel = {model & moveTimer}
 
