@@ -56,7 +56,7 @@ true = \test, pass ->
     results = List.append test.results result
     { test & current, results }
     
-commutative : Session, (a, a -> b), a, a, b -> Session
+# commutative : Session, (a, a -> b), a, a, b -> Session
 commutative = \test, func, param1, param2, expected ->
     result1 = (func param1 param2) == expected
     result2 = (func param2 param1) == expected
@@ -77,8 +77,8 @@ printResult = \task, result ->
     
 resultIsPass = \result ->
     when result is
-        Pass _ -> True
-        Fail _ -> False
+        Pass _ -> Bool.true
+        Fail _ -> Bool.false
     
 resultIsFail = \result -> !(resultIsPass result)
    

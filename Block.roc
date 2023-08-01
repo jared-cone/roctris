@@ -64,16 +64,16 @@ rotateCounterClockwise = \block -> rotate block 1 -1
     
 intersects : Block, Block -> Bool
 intersects = \a, b ->
-    List.walkUntil a.points False (\_, p ->
+    List.walkUntil a.points Bool.false (\_, p ->
         if List.contains b.points p then
-            Stop True
+            Break Bool.true
         else
-            Continue False)
+            Continue Bool.false)
             
 intersectsList : Block, List Block -> Bool
 intersectsList = \block, blocks ->
-    List.walkUntil blocks False (\_, otherBlock ->
+    List.walkUntil blocks Bool.false (\_, otherBlock ->
         if intersects block otherBlock then
-            Stop True
+            Break Bool.true
         else
-            Continue False)
+            Continue Bool.false)

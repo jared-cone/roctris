@@ -47,7 +47,7 @@ testClamp = \test ->
     |> UnitTest.true ((clamp 5 -1 1) == 1)
     |> UnitTest.true ((clamp -5 -1 1) == -1)
 
-sign : Num a -> Num a
+# sign : Num a -> Num a
 sign = \num ->
     if num == 0 then 0
     else if num > 0 then 1

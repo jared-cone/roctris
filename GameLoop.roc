@@ -30,8 +30,8 @@ State m : {
 run : m, Update m, Draw m -> Task.Task {} []
 run = \model, update, draw ->
     _ <- Terminal.clear |> Task.await
-    _ <- Terminal.rawMode True |> Task.await
-    _ <- Terminal.cursorVisible False |> Task.await
+    _ <- Terminal.rawMode Bool.true |> Task.await
+    _ <- Terminal.cursorVisible Bool.false |> Task.await
     
     view = draw model
     
@@ -45,8 +45,8 @@ run = \model, update, draw ->
     _ <- Terminal.backcolorReset |> Task.await
     _ <- Terminal.forecolorReset |> Task.await
     _ <- Terminal.clear |> Task.await
-    _ <- Terminal.rawMode False |> Task.await
-    _ <- Terminal.cursorVisible True |> Task.await
+    _ <- Terminal.rawMode Bool.false |> Task.await
+    _ <- Terminal.cursorVisible Bool.true |> Task.await
     
     Task.succeed {}
     
@@ -83,11 +83,11 @@ loop = \state ->
     
     frameEndTime <- Time.appSeconds |> Task.await
     
-    frameTime = frameEndTime - frameStartTime
+    frameTime = Num.toF64(frameEndTime - frameStartTime)
     
-    sleepTime = Util.max 0 (fixedDeltaSeconds - frameTime)
+    sleepTime = Util.max 0 (Num.toF64(fixedDeltaSeconds) - frameTime)
 
-    _ <- Thread.sleep sleepTime |> Task.await
+    _ <- Thread.sleep (Num.toF64 sleepTime) |> Task.await
     
     if (key == Keys.q) || (key == Keys.exit) then
         Done {} |> Task.succeed

@@ -94,7 +94,7 @@ DeltaViewRenderState : {
     
 renderDeltaLoop : DeltaViewRenderState, Cell -> DeltaViewRenderState
 renderDeltaLoop = \state, cell ->
-    y = Num.divFloorChecked state.idx state.width |> Result.withDefault 0
+    y = Num.divTruncChecked state.idx state.width |> Result.withDefault 0
     x = state.idx - (y * state.width)
     
     oldCell = List.get state.oldCells state.idx |> Result.withDefault cell

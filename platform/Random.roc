@@ -8,9 +8,9 @@ randomU32 = Effect.after Effect.randomU32 Task.succeed
 nextU32 : U32 -> U32
 nextU32 = \seed ->
     # https://www.tjhsst.edu/~dhyatt/arch/random.html
-    shift1 = Num.shiftRightBy 20 seed
+    shift1 = Num.shiftRightBy 20 (Num.toU8 seed)
     xor1 = Num.bitwiseXor seed shift1
-    shift2 = Num.shiftLeftBy 12 xor1
+    shift2 = Num.shiftLeftBy 12 (Num.toU8 xor1)
     xor2 = Num.bitwiseXor seed shift2
     xor2
     
@@ -20,7 +20,7 @@ rangeU32 = \seed, incMin, incMax ->
     range = if incMax >= incMin then incMax - incMin + 1 else 0
     # TODO compiler crash - no support for mod U32?
     #randNum = Num.modInt randSeed range |> Result.withDefault 0 |> Num.add incMin
-    div = Num.divFloorChecked randSeed range |> Result.withDefault 0
+    div = Num.divTruncChecked randSeed range |> Result.withDefault 0
     t = div * range
     randNum = randSeed - t
     {randSeed, randNum}
